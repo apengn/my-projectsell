@@ -29,7 +29,12 @@
       <img width="100%" height="100%" :src="seller.avatar"/>
     </div>
     <div class="detailShow" v-show="isShowDetail">
-
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main"></div>
+      </div>
+      <div class="detail-close" @click="hideDetail">
+        <i class="icon-close"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -185,4 +190,16 @@
       top 0
       z-index 100
       filter blur(10px)
+      .detail-wrapper
+        min-height 100%
+        .detail-main
+          margin-top 64px
+          padding-bottom 64px
+      .detail-close
+        position relative
+        width: 32px
+        height: 32px
+        margin: -64px auto 0 auto
+        clear both
+        font-size 32px
 </style>
