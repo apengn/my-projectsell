@@ -28,19 +28,49 @@
     <div class="background">
       <img width="100%" height="100%" :src="seller.avatar"/>
     </div>
-    <div class="detailShow" v-show="isShowDetail">
-      <div class="detail-wrapper clearfix">
-        <div class="detail-main"></div>
+    <transition name="fade">
+      <div class="detailShow" v-show="isShowDetail">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="detail-title">{{seller.name}}</h1>
+            <div class="star-wrapper">
+              <star :size="48" :score="seller.score"></star>
+            </div>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul v-if="seller.supports" class="supports">
+              <li class="supports-item" v-for="(item, index) in seller.supports">
+                <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+                <span class="text">{{item.description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="notice">
+              <p class="notice-text">{{seller.bulletin}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="detail-close" @click="hideDetail">
+          <i class="icon-close"></i>
+        </div>
       </div>
-      <div class="detail-close" @click="hideDetail">
-        <i class="icon-close"></i>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import star from 'components/star/star.vue'
   export default{
+    components: {
+      'star': star
+    },
     props: {
       seller: {type: Object}
     },
@@ -179,22 +209,89 @@
       height 100%
       z-index -1
       filter blur(10px)
-
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 1s
+    }
+    .fade-enter, .fade-leave-active {
+      opacity: 0
+    }
     .detailShow
       position fixed
       overflow auto
-      background rgba(7, 17, 27, 0.8)
       width 100%
       height 100%
       left 0
       top 0
       z-index 100
       filter blur(10px)
+      background: rgba(7, 17, 27, 0.8)
       .detail-wrapper
         min-height 100%
+        width 100%
         .detail-main
           margin-top 64px
           padding-bottom 64px
+          .detail-title
+            font-weight 700
+            font-size 16px
+            line-height 16px
+            text-align center
+          .star-wrapper
+            margin-top 18px
+            padding: 2px 0
+            text-align center
+          .title
+            display flex
+            margin 30px auto 24px auto
+            width 95%
+            .line
+              position relative
+              flex 1
+              top -6px
+              border-bottom 1px solid rgba(255, 255, 255, 0.2)
+            .text
+              font-size 20px
+              padding 0 10px
+              font-weight 100
+          .supports
+            margin 10px auto 0 auto
+            width 80%
+            .supports-item
+              padding 0 12px
+              margin-bottom 12px
+              font-size 0
+              &.last-child
+                margin-bottom 0
+              .text
+                font-size 12px
+                text-align center
+                line-height: 16px
+                vertical-align top
+              .icon
+                display inline-block
+                width: 16px
+                margin-right 6px
+                height: 16px
+                background-size 16px 16px
+                background-repeat no-repeat
+                vertical-align top
+                &.decrease
+                  bg-image('decrease_1')
+                &.discount
+                  bg-image('discount_1')
+                &.guarantee
+                  bg-image('guarantee_1')
+                &.invoice
+                  bg-image('decrease_1')
+                &.special
+                  bg-image('special_1')
+          .notice
+            width: 80%
+            margin: 0 auto
+            .notice-text
+              font-size: 12px
+              padding: 0 12px
+              line-height: 24px
       .detail-close
         position relative
         width: 32px
@@ -202,4 +299,6 @@
         margin: -64px auto 0 auto
         clear both
         font-size 32px
+
+
 </style>
