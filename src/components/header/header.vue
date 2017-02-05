@@ -46,6 +46,7 @@
                 <span class="icon" :class="classMap[seller.supports[index].type]"></span>
                 <span class="text">{{item.description}}</span>
               </li>
+              http://vuejssellapp.t.imooc.io/#!/
             </ul>
             <div class="title">
               <div class="line"></div>
@@ -224,6 +225,7 @@
       top 0
       z-index 100
       filter blur(10px)
+      backdrop-filter: blur(10px)
       background: rgba(7, 17, 27, 0.8)
       .detail-wrapper
         min-height 100%
