@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-    <div class="goods-menu" v-if="goods">
+    <div class="goods-menu" v-if="goods" ref="menuScrolls">
       <ul>
         <li v-for="good in goods" class="menu-item">
           <span class="text border-1px">
@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <div class="goods-wrapper">
+    <div class="goods-wrapper" ref="foodsScrolls">
       <ul>
         <li v-for="item in goods">
           <h1 class="title">{{item.name}}</h1>
@@ -44,7 +44,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import BScrol from 'better-scroll'
+  // 滚动的组件
+  import BScroll from 'better-scroll'
   const ERRO_OK = 0;
   export default{
     props: {
@@ -64,15 +65,18 @@
         if (respones.erro === ERRO_OK) {
           this.goods = respones.data;
           console.log(respones.data);
+          this.$nextTick(()=> {
+            this.initScroll();
+          })
         }
       }, (erro)=> {
         console.log(erro);
       })
     },
     methods: {
-      initScroll()
-      {
-       this.men
+      initScroll() {
+        this.menuScroll = new BScroll(this.$refs.menuScrolls, {});
+        this.foodsScroll = new BScroll(this.$refs.foodsScrolls, {});
       }
     }
   };
@@ -84,8 +88,9 @@
     position: absolute
     display: flex
     top: 182px
+    width: 100%
     bottom 46px;
-    /*overflow hidden*/
+    overflow hidden
     .goods-menu
       flex: 0 0 80px
       width: 80px
