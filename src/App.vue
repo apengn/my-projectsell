@@ -30,8 +30,8 @@
           console.log(response.data);
           this.seller = response.data;
         }
-      }, (response)=> {
-        console.log(response.body);
+      }, (erro)=> {
+        console.log(erro);
       })
     },
     name: 'app',
